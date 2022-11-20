@@ -18,35 +18,36 @@ public class TransactionController
     @Autowired
     private AbstractTransactionService transactionService;
 
-    @GetMapping ("{userID}")
+    @GetMapping("{userID}")
     public ResponseEntity<List<Transaction>> getTransactionsOfUser(@PathVariable Integer userID)
     {
         List<Transaction> transactionList = transactionService.findAllByUserID(userID);
-        return ResponseEntity.ok(transactionList);
 
+        return ResponseEntity.ok(transactionList);
     }
+
     @PostMapping
     public ResponseEntity<Transaction> saveTransaction(@RequestBody Transaction transaction)
     {
         transaction.setTransactionTime(new Date());
         Transaction savedTransaction = transactionService.save(transaction);
+
         return new ResponseEntity<>(savedTransaction, HttpStatus.CREATED);
     }
+
     @DeleteMapping("delete/{transactionID}")
     public ResponseEntity deleteTransactionByID(@PathVariable Integer transactionID)
     {
         transactionService.deleteById(transactionID);
-        return new ResponseEntity<>(HttpStatus.OK);
+
+        return new ResponseEntity(HttpStatus.OK);
     }
+
     @GetMapping
     public ResponseEntity<List<Transaction>> getAllTransactions()
     {
         List<Transaction> transactionList = transactionService.getAll();
+
         return ResponseEntity.ok(transactionList);
     }
-
-
-
-
-
 }
